@@ -1,7 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import GiftItem from '../components/GiftItem';
 import Navbar from '../components/Navbar';
 import CartContext from '../components/CartContext';
+import AuthContext from '../components/AuthContext';
 
 const gifts = [
   {
@@ -21,14 +22,90 @@ const gifts = [
   }
 ];
 
+const LoginModal = ({ show, onClose }) => {
+  const { login, register, forgotPassword } = useContext(AuthContext);
+  const [isRegister, setIsRegister] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const [showForgot, setShowForgot] = useState(false);
+  const [forgotResult, setForgotResult] = useState('');
+
+  if (!show) return null;
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (login(email, password)) {
+      setMessage('Login successful!');
+      onClose();
+    } else {
+      setMessage('Invalid credentials.');
+    }
+  };
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    if (register(email, password)) {
+      setMessage('Registration successful!');
+      onClose();
+    } else {
+      setMessage('User already exists.');
+    }
+  };
+
+  const handleForgot = (e) => {
+    e.preventDefault();
+    const result = forgotPassword(email);
+    setForgotResult(result ? `Your password is: ${result}` : 'Email not found.');
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+      <div className="bg-white rounded-xl shadow-lg p-8 w-96 relative">
+        <button onClick={onClose} className="absolute top-2 right-2 text-gray-400 hover:text-gray-600">✕</button>
+        <h2 className="text-2xl font-bold mb-4 text-pink-600">{isRegister ? 'Register' : 'Login'}</h2>
+        <form onSubmit={isRegister ? handleRegister : handleLogin} className="flex flex-col gap-4">
+          <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} className="p-2 rounded border border-gray-300" required />
+          {!showForgot && (
+            <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} className="p-2 rounded border border-gray-300" required />
+          )}
+          {message && <div className="text-sm text-red-500">{message}</div>}
+          {showForgot ? (
+            <>
+              <button onClick={handleForgot} className="px-4 py-2 bg-pink-500 text-white rounded-full hover:bg-pink-400 transition">Get Password</button>
+              {forgotResult && <div className="text-green-600 text-sm mt-2">{forgotResult}</div>}
+              <button type="button" onClick={() => setShowForgot(false)} className="text-xs text-blue-500 mt-2">Back to Login</button>
+            </>
+          ) : (
+            <>
+              <button type="submit" className="px-4 py-2 bg-pink-500 text-white rounded-full hover:bg-pink-400 transition">{isRegister ? 'Register' : 'Login'}</button>
+              <button type="button" onClick={() => setIsRegister(!isRegister)} className="text-xs text-blue-500">{isRegister ? 'Already have an account? Login' : 'Not registered? Register'}</button>
+              {!isRegister && <button type="button" onClick={() => setShowForgot(true)} className="text-xs text-blue-500">Forgot Password?</button>}
+            </>
+          )}
+        </form>
+      </div>
+    </div>
+  );
+};
+
 const Home = () => {
   const { cart } = useContext(CartContext);
+  const { user } = useContext(AuthContext);
   const [showCart, setShowCart] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+
+  useEffect(() => {
+    const handler = () => setShowLogin(true);
+    window.addEventListener('show-login', handler);
+    return () => window.removeEventListener('show-login', handler);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 flex flex-col items-center">
-      <Navbar cartCount={cart.length} onCartClick={() => setShowCart(!showCart)} />
-      {showCart && (
+      <Navbar cartCount={user ? cart.length : 0} onCartClick={() => setShowCart(!showCart)} />
+      <LoginModal show={showLogin} onClose={() => setShowLogin(false)} />
+      {showCart && user && (
         <div className="fixed top-20 right-8 bg-white rounded-xl shadow-lg p-6 w-80 z-50">
           <h2 className="text-xl font-bold mb-4 text-pink-600">Cart</h2>
           {cart.length === 0 ? (
