@@ -3,6 +3,7 @@ import GiftItem from '../components/GiftItem';
 import Navbar from '../components/Navbar';
 import CartContext from '../components/CartContext';
 import AuthContext from '../components/AuthContext';
+import ProductModal from '../components/ProductModal';
 
 const gifts = [
   {
@@ -105,6 +106,7 @@ const Home = () => {
     <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 flex flex-col items-center">
       <Navbar cartCount={user ? cart.length : 0} onCartClick={() => setShowCart(!showCart)} />
       <LoginModal show={showLogin} onClose={() => setShowLogin(false)} />
+      <ProductModal />
       {showCart && user && (
         <div className="fixed top-20 right-8 bg-white rounded-xl shadow-lg p-6 w-80 z-50">
           <h2 className="text-xl font-bold mb-4 text-pink-600">Cart</h2>
