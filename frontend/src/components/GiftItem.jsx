@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
-import CartContext from './CartContext';
-import { useDispatch } from 'react-redux';
-import { selectProduct } from '../productSlice';
+import React, { useContext } from "react";
+import CartContext from "./CartContext";
+import { useDispatch } from "react-redux";
+import { selectProduct } from "../productSlice";
 
 const GiftItem = ({ image, title, description }) => {
   const { addToCart } = useContext(CartContext);
