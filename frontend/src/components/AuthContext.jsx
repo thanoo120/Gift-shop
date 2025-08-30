@@ -4,7 +4,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [users, setUsers] = useState([]); // [{email, password}]
+  const [users, setUsers] = useState([]);
 
   const register = (email, password) => {
     if (users.find((u) => u.email === email)) return false;
