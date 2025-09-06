@@ -1,44 +1,18 @@
-import React, { useState, createContext } from "react";
+import React, { createContext, useContext } from "react";
+import { useAuthContext } from "@asgardeo/auth-react";
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [users, setUsers] = useState([]);
-
-  const register = (email, password) => {
-    if (users.find((u) => u.email === email)) return false;
-    setUsers((prev) => [...prev, { email, password }]);
-    setUser({ email });
-    return true;
-  };
-
-  const login = (email, password) => {
-    const found = users.find(
-      (u) => u.email === email && u.password === password
-    );
-    if (found) {
-      setUser({ email });
-      return true;
-    }
-    return false;
-  };
-
-  const logout = () => setUser(null);
-
-  const forgotPassword = (email) => {
-    const found = users.find((u) => u.email === email);
-    if (found) return found.password;
-    return null;
-  };
+export const AppAuthProvider = ({ children }) => {
+  const asgardeoAuth = useAuthContext();
 
   return (
-    <AuthContext.Provider
-      value={{ user, register, login, logout, forgotPassword }}
-    >
+    <AuthContext.Provider value={asgardeoAuth}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+export const useAuth = () => useContext(AuthContext);
 
 export default AuthContext;

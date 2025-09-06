@@ -6,6 +6,7 @@ import { selectProduct } from "../productSlice";
 const GiftItem = ({ image, title, description }) => {
   const { addToCart } = useContext(CartContext);
   const dispatch = useDispatch();
+
   return (
     <div
       className="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center hover:shadow-2xl transition-shadow cursor-pointer"
