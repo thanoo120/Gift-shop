@@ -3,7 +3,7 @@ const { body, param } = require("express-validator");
 const Order = require("../models/Order");
 const router = express.Router();
 
-// Validate the date is >= today and not Sunday
+
 function isValidDate(dateStr) {
   const d = new Date(dateStr);
   const today = new Date();
@@ -13,18 +13,18 @@ function isValidDate(dateStr) {
   return d >= today && noSunday;
 }
 
-// Create
+
 router.post(
   "/",
   body("productName").isString().trim().isLength({ min: 1, max: 120 }),
   body("quantity").isInt({ min: 1, max: 1000 }),
   body("message").optional().isString().isLength({ max: 2000 }),
   body("deliveryDate").custom(isValidDate),
-  body("deliveryTime").isIn(["10 AM", "11 AM", "12 PM"]),
+  body("deliveryTime").isIn(["10 AM", "11 AM", "12 PM","1 PM","2 PM","3 PM"]),
   body("deliveryDistrict").isString().trim().isLength({ min: 1, max: 100 }),
   async (req, res, next) => {
     try {
-      const ownerSub = req.auth?.sub; // from validated JWT
+      const ownerSub = req.auth?.sub; 
       if (!ownerSub) return res.status(401).json({ error: "Unauthenticated" });
 
       const order = await Order.create({
@@ -43,7 +43,7 @@ router.post(
   }
 );
 
-// Read (only own)
+
 router.get("/", async (req, res, next) => {
   try {
     const ownerSub = req.auth?.sub;
@@ -54,7 +54,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// Update (only own)
+
 router.put(
   "/:id",
   param("id").isMongoId(),
@@ -77,7 +77,7 @@ router.put(
   }
 );
 
-// Delete (only own)
+
 router.delete("/:id", param("id").isMongoId(), async (req, res, next) => {
   try {
     const ownerSub = req.auth?.sub;

@@ -22,7 +22,7 @@ const getKey = (header, callback) => {
     });
 };
 
-// Verify JWT token
+
 const verifyToken = (req, res, next) => {
     const authHeader = req.headers.authorization;
     
@@ -58,7 +58,6 @@ const verifyToken = (req, res, next) => {
             });
         }
 
-        // Attach user info to request
         req.user = {
             id: decoded.sub,
             username: decoded.preferred_username || decoded.nickname || decoded.email,
@@ -72,7 +71,6 @@ const verifyToken = (req, res, next) => {
     });
 };
 
-// Check if user has specific permission
 const checkPermission = (permission) => {
     return (req, res, next) => {
         if (!req.user) {
@@ -97,7 +95,6 @@ const checkPermission = (permission) => {
     };
 };
 
-// Rate limiting per user
 const userRateLimit = new Map();
 
 const perUserRateLimit = (maxRequests = 50, windowMs = 60000) => {

@@ -1,10 +1,10 @@
-// server/middleware/security.js
+
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
 const config = require('../config/config');
 
-// General rate limiting
+
 const limiter = rateLimit({
     windowMs: config.security.rateLimitWindowMs,
     max: config.security.rateLimitMaxRequests,
@@ -13,17 +13,17 @@ const limiter = rateLimit({
     legacyHeaders: false,
 });
 
-// Strict rate limiting for auth endpoints
+
 const authLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 5, // 5 requests per window
+    windowMs: 15 * 60 * 1000,
+    max: 5, 
     message: 'Too many authentication attempts, please try again later.',
     skipSuccessfulRequests: true
 });
 
-// Input validation and sanitization
+
 const sanitizeInput = (req, res, next) => {
-    // Sanitize request body, query, and params
+   
     if (req.body) {
         req.body = sanitizeObject(req.body);
     }
@@ -36,11 +36,11 @@ const sanitizeInput = (req, res, next) => {
     next();
 };
 
-// Recursive sanitization function
+
 const sanitizeObject = (obj) => {
     if (typeof obj !== 'object' || obj === null) {
         if (typeof obj === 'string') {
-            // Remove potential XSS vectors
+           
             return obj
                 .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
                 .replace(/javascript:/gi, '')
@@ -54,7 +54,7 @@ const sanitizeObject = (obj) => {
     
     for (const key in obj) {
         if (obj.hasOwnProperty(key)) {
-            // Prevent prototype pollution
+          
             if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
                 continue;
             }
@@ -65,9 +65,8 @@ const sanitizeObject = (obj) => {
     return sanitized;
 };
 
-// CSRF Protection (for state-changing operations)
+
 const csrfProtection = (req, res, next) => {
-    // Skip CSRF for GET requests
     if (req.method === 'GET') {
         return next();
     }
@@ -85,7 +84,7 @@ const csrfProtection = (req, res, next) => {
     next();
 };
 
-// Security headers configuration
+
 const securityHeaders = helmet({
     contentSecurityPolicy: {
         directives: {
@@ -104,9 +103,9 @@ const securityHeaders = helmet({
     }
 });
 
-// Prevent parameter pollution
+
 const preventParamPollution = (req, res, next) => {
-    // Convert arrays to first value for specific fields
+  
     const fieldsToClean = ['username', 'email', 'productName', 'quantity'];
     
     fieldsToClean.forEach(field => {
@@ -121,7 +120,6 @@ const preventParamPollution = (req, res, next) => {
     next();
 };
 
-// Log security events
 const securityLogger = (eventType) => {
     return (req, res, next) => {
         console.log(`[SECURITY] ${eventType} - User: ${req.user?.username || 'Anonymous'} - IP: ${req.ip} - Path: ${req.path}`);
@@ -132,6 +130,7 @@ const securityLogger = (eventType) => {
 module.exports = {
     limiter,
     authLimiter,
+    sanitizeObject,
     sanitizeInput,
     csrfProtection,
     securityHeaders,
