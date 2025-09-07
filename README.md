@@ -115,22 +115,27 @@ Gift-shop/
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── AuthContext.js      # Authentication context
-│   │   │   ├── CartContext.js      # Shopping cart context
-│   │   │   ├── GiftItem.js         # Individual gift item component
-│   │   │   ├── Navbar.js           # Navigation bar
-│   │   │   └── ProductModal.js     # Product detail modal
-│   │   ├── pages/
-│   │   │   └── Home.js             # Main home page
-│   │   ├── App.jsx                 # Main app component
-│   │   ├── main.jsx                # Entry point
-│   │   ├── store.js                # Redux store configuration
-│   │   ├── productSlice.js         # Redux slice for product state
-│   │   └── tailwind.css            # Tailwind CSS imports
-│   ├── package.json                # Dependencies and scripts
-│   ├── vite.config.js
-│   └── tailwind.config.js
-└── README.md
+│   │   │   ├── AuthContext.js      
+│   │   │   ├── CartContext.js     
+│   │   │   ├── GiftItem.js         
+│   │   │   ├── Navbar.js           
+│   │   │   │── ProductModal.js     
+│   │   ├   │── CartDrawer.jsx
+│   │   │   │── PurchaseForm.jsx     
+│   │   ├   │── userProfile.jsx      
+│   │   ├── pages/     
+│   │   ├    │── Home.jsx         
+│   │   ├──App.jsx 
+│   │   └── index.css           
+│   ├   |──main.jsx         
+│   ├   |──productSlice.js
+│   └   |──store.js
+|   |   |──tailwind.css    
+└   |──index.html
+|   |──package.json
+|   |──package-lock.json
+|   |──postcss.config.cjs
+|──README.me
 ```
 
 ## Features Explained
