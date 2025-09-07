@@ -1,7 +1,7 @@
 # Giftify - Gift Shop Application
 
-A beautiful and modern gift shop application built with React, Redux Toolkit, and Tailwind CSS.
-
+A beautiful and modern gift shop application built with React, Redux Toolkit, and Tailwind CSS.It securely built with OIDC.
+Authentication is developed using Asgardeo IDP and also at secure from the vulnerabilities like CSRF,XSS and SQL injection.
 ## Features
 
 - 🎁 Browse beautiful gift items
@@ -17,14 +17,13 @@ A beautiful and modern gift shop application built with React, Redux Toolkit, an
 - **State Management**: Redux Toolkit
 - **Styling**: Tailwind CSS
 - **Build Tool**: Vite
-- **Package Manager**: npm
+- **Package Manager**: pnpm
 
 ## Getting Started
 
 ### Prerequisites
 
 - Node.js (version 16 or higher)
-- npm (comes with Node.js)
 
 ### Installation
 
@@ -36,7 +35,28 @@ A beautiful and modern gift shop application built with React, Redux Toolkit, an
 
 2. **Install dependencies**:
    ```bash
-   npm install
+   pnpm install
+   pnpm add react
+   pnpm add @asgardeo/auth-react
+   pnpm add react-router-dom
+   pnpm add -D tailwindcss postcss autoprefixer
+   pnpm exec tailwindcss init -p
+3. **Navigate to the backendtend directory**:
+
+   ```bash
+   cd Gift-shop/backend
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   pnpm init
+   pnpm add express
+   pnpm add cors
+   pnpm add @asgardeo/oidc-node
+   ppnpm add dotenv
+   pnpm add -D nodemon
+
+
    ```
 
 ### Running the Application
@@ -44,7 +64,8 @@ A beautiful and modern gift shop application built with React, Redux Toolkit, an
 1. **Start the development server**:
 
    ```bash
-   npm run dev
+   pnpm run dev
+   pnpm run start
    ```
 
 2. **Open your browser** and navigate to:
@@ -55,7 +76,7 @@ A beautiful and modern gift shop application built with React, Redux Toolkit, an
 ### Building for Production
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 This will create a `dist` folder in the frontend directory with the production build.
@@ -64,6 +85,33 @@ This will create a `dist` folder in the frontend directory with the production b
 
 ```
 Gift-shop/
+├── backend/
+│   ├── confic/
+│   │   |──config.js
+│   │   │──default.json 
+│   │   
+│   │── middleware/   
+│   │   │──auth.js
+│   │   │──security.js
+│   │── models/    
+│   │   ├── order.js
+│   │   │──products.js           
+│   │   ├── User.js               
+│   │──nodemodules               
+│   │──routes/           
+│   │   │──index.js
+│   │   │──order.js
+│   │   │──products.js
+│   │   │──users.js
+│   │──views
+│   │   │──error.ejs
+│   │   │──index.ejs
+│   │──.env        
+│   ├── package-lock.json                
+│   ├── package.js
+│   └── server.js
+|
+|
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
@@ -89,9 +137,8 @@ Gift-shop/
 
 ### Authentication
 
-- Simple email/password authentication
-- Registration and login functionality
-- Password recovery (shows stored password)
+- Used Asgardeo IDP
+- login and logout functionality
 - User session management
 
 ### Shopping Cart
@@ -99,7 +146,7 @@ Gift-shop/
 - Add items to cart
 - View cart contents
 - Cart count display in navbar
-- Persistent cart state during session
+- checout the order by filling the purchase form according to their wish
 
 ### Product Management
 
@@ -118,19 +165,8 @@ Gift-shop/
 
 ## Available Scripts
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run lint` - Run ESLint
-- `npm run preview` - Preview production build
+- `pnpm run dev` - Start development server
+- `pnpm run build` - Build for production
+- `pnpm run lint` - Run ESLint
+- `pnpm run preview` - Preview production build
 
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License.
