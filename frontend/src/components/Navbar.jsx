@@ -15,7 +15,7 @@ const Navbar = ({ cartCount, onCartClick }) => {
       </ul>
 
       <div className="flex items-center gap-4">
-        {/* Cart Button */}
+        
         <button className="relative" onClick={onCartClick}>
           <ShoppingCart className="w-6 h-6 text-gray-700" />
           {cartCount > 0 && (
@@ -25,7 +25,7 @@ const Navbar = ({ cartCount, onCartClick }) => {
           )}
         </button>
 
-        {/* Auth Buttons */}
+       
         {state.isAuthenticated ? (
           <div className="flex gap-4 items-center">
             <span className="font-medium">{state.username || "User"}</span>

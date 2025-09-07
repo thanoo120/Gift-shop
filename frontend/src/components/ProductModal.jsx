@@ -20,7 +20,7 @@ const ProductModal = () => {
           <span className="text-xl font-bold">{quantity}</span>
           <button onClick={() => dispatch(increaseQuantity())} className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 text-lg">+</button>
         </div>
-        {/* Add to Cart button can be added here if needed */}
+        
       </div>
     </div>
   );

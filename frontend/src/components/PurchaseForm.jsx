@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 
-const districts = ["Colombo", "Gampaha", "Kandy", "Jaffna", "Galle"];
+const districts = [ 'Colombo', 'Gampaha', 'Kalutara', 'Kandy', 'Matale', 'Nuwara Eliya',
+        'Galle', 'Matara', 'Hambantota', 'Jaffna', 'Kilinochchi', 'Mannar',
+        'Mullaitivu', 'Vavuniya', 'Batticaloa', 'Ampara', 'Trincomalee',
+        'Kurunegala', 'Puttalam', 'Anuradhapura', 'Polonnaruwa', 'Badulla',
+        'Monaragala', 'Ratnapura', 'Kegalle'];
 const products = ["Flowers", "Chocolates", "Gift Card", "Perfume"];
 
 const PurchaseForm = ({ onClose }) => {
@@ -36,8 +40,6 @@ const PurchaseForm = ({ onClose }) => {
         onSubmit={handleSubmit}
       >
         <h2 className="text-2xl font-bold">Purchase Form</h2>
-
-        {/* Date */}
         <label className="block">
           Date of Purchase:
           <input
@@ -57,7 +59,6 @@ const PurchaseForm = ({ onClose }) => {
           />
         </label>
 
-        {/* Delivery Time */}
         <label className="block">
           Preferred Delivery Time:
           <select
@@ -71,10 +72,14 @@ const PurchaseForm = ({ onClose }) => {
             <option value="10 AM">10 AM</option>
             <option value="11 AM">11 AM</option>
             <option value="12 PM">12 PM</option>
+
+              <option value="2 PM">10 PM</option>
+            <option value="3 PM">11 PM</option>
+            <option value="4 PM">12 PM</option>
           </select>
         </label>
 
-        {/* Location */}
+
         <label className="block">
           Delivery Location:
           <select
@@ -93,7 +98,6 @@ const PurchaseForm = ({ onClose }) => {
           </select>
         </label>
 
-        {/* Product */}
         <label className="block">
           Product Name:
           <select
@@ -112,7 +116,6 @@ const PurchaseForm = ({ onClose }) => {
           </select>
         </label>
 
-        {/* Quantity */}
         <label className="block">
           Quantity:
           <input
@@ -126,7 +129,7 @@ const PurchaseForm = ({ onClose }) => {
           />
         </label>
 
-        {/* Message */}
+      
         <label className="block">
           Message:
           <textarea
@@ -137,7 +140,6 @@ const PurchaseForm = ({ onClose }) => {
           />
         </label>
 
-        {/* Buttons */}
         <div className="flex justify-between">
           <button
             type="button"
